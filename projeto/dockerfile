@@ -1,0 +1,27 @@
+# Etapa 1: Construir o artefato Maven
+FROM maven:3.8.7-eclipse-temurin-17 AS build
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia o pom.xml e o código fonte para a imagem
+COPY pom.xml .
+COPY src ./src
+
+# Executa o Maven para construir o projeto
+RUN mvn clean package -DskipTests
+
+# Etapa 2: Criar a imagem final
+FROM openjdk:17-jdk-slim
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia o JAR gerado da fase de build para o container final
+COPY --from=build /app/target/*.jar app.jar
+
+# Expõe a porta que a aplicação irá usar
+EXPOSE 8080
+
+# Define o comando para rodar a aplicação
+ENTRYPOINT ["java", "-jar", "app.jar"]

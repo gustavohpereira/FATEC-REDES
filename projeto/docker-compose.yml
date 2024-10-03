@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./  # Apontando para o diretório do Dockerfile do back-end
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:4000/seu_banco_de_dados
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: sua_senha
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: sua_senha
+      MYSQL_DATABASE: seu_banco_de_dados
+    ports:
+      - "4000:4000"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  mysql_data:
