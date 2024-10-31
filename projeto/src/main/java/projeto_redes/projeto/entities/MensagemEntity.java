@@ -18,8 +18,6 @@ public class MensagemEntity {
     private Date data;
 
 
-
-
     public Long getId() {
         return id;
     }

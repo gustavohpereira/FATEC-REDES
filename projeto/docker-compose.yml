@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:4000/seu_banco_de_dados
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/seu_banco_de_dados
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: sua_senha
     depends_on:
@@ -20,7 +20,7 @@ services:
       MYSQL_ROOT_PASSWORD: sua_senha
       MYSQL_DATABASE: seu_banco_de_dados
     ports:
-      - "4000:4000"
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
