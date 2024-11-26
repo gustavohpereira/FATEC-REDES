@@ -101,28 +101,31 @@ sudo apt install nginx -y
 - 3. Configurar o Nginx como Load Balancer
 Edite o arquivo de configuração do Nginx:
 ```
-sudo nano /etc/nginx/sites-available/default
+sudo  nano /etc/nginx/conf.d/redes.conf
 ```
 
 
 Substitua o conteúdo pelo seguinte:
 ```
- upstream backend_servers {
+    upstream frontend_servers {
      server <IP_do_servidor_web_1>;
      server <IP_do_servidor_web_2>;
      server <IP_do_servidor_web_3>;
- }
- 
- server {
-     listen 80;
-     
-     location / {
-         proxy_pass http://backend_servers;
-         proxy_set_header Host $host;
-         proxy_set_header X-Real-IP $remote_addr;
-         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-     }
- }
+    }
+
+    server {
+        listen 80;
+        server_name <IP_da_maquina_Nginx>;
+
+        location / {
+            proxy_pass http://frontend_servers;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+
 ```
 4. Testar e Reiniciar o Nginx
 Verifique a configuração:
