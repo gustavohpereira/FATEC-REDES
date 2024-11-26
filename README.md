@@ -68,6 +68,10 @@ O objetivo da atividade é desenvolver uma infraestrutura de rede para uma empre
 
 ---
 
+
+![image](https://github.com/user-attachments/assets/0115937f-9e65-4ad2-b1eb-cd89a6e64876)
+
+
 ## Início do Projeto
 
 ### **Configuração dos Servidores Frontend com Apache**
@@ -115,31 +119,30 @@ sudo apt install nginx -y
 
 3. Configurar o Nginx como Load Balancer
 Edite o arquivo de configuração do Nginx:
-bash
-Copiar código
+```
 sudo nano /etc/nginx/sites-available/default
+```
 
 
 Substitua o conteúdo pelo seguinte:
-nginx
-Copiar código
-upstream backend_servers {
-    server <IP_do_servidor_web_1>;
-    server <IP_do_servidor_web_2>;
-    server <IP_do_servidor_web_3>;
-}
-
-server {
-    listen 80;
-    
-    location / {
-        proxy_pass http://backend_servers;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-}
-
+```
+ upstream backend_servers {
+     server <IP_do_servidor_web_1>;
+     server <IP_do_servidor_web_2>;
+     server <IP_do_servidor_web_3>;
+ }
+ 
+ server {
+     listen 80;
+     
+     location / {
+         proxy_pass http://backend_servers;
+         proxy_set_header Host $host;
+         proxy_set_header X-Real-IP $remote_addr;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+     }
+ }
+```
 4. Testar e Reiniciar o Nginx
 Verifique a configuração:
 bash
@@ -152,3 +155,91 @@ Reinicie o Nginx para aplicar as mudanças:
 bash
 Copiar código
 sudo systemctl restart nginx
+
+
+
+## BACK-END
+
+### criar uma ec2
+crie uma ec2 para servir como servidor back-end para nossa aplicação
+
+### clonar back-end
+
+```
+   git clone 
+```
+
+### Rode o docker 
+
+#### dentro do arquivo há um docker file e um docker compose, nos quais rodam a aplicação junto de um container de mysql, rode o docker compose
+
+```
+docker compose up
+```
+
+
+
+## SERVERS WEB
+
+### para servir nossas aplicações front-end, criamos uma ec2 para cada front-end ( para uso do load balancer )
+
+
+agora dentro de cada uma, você vai instalar o apache
+
+```
+ sudo apt-get install apache2
+```
+agora renicie o apache
+```
+ sudo systemctl restart apache2
+```
+
+e entre nas configurações do apache e coloque o html do repositório nele (/var/www/html)
+
+entre no html e atualize o endpoint do back-end
+
+## VPN
+
+### instale openvpn em sua ec2 do loadbalancer por meio de um script
+
+```
+wget https://git.io/vpn -O openvpn-install.sh
+
+```
+
+Torne o script executável:
+
+```
+sudo chmod +x openvpn-install.sh
+```
+
+Execute o script para instalar o OpenVPN:
+
+```
+sudo bash openvpn-install.sh
+```
+
+Copie o arquivo de configuração do cliente para o diretório do usuário padrão:
+
+```
+sudo cp /root/client1.ovpn ~
+```
+
+Baixe o arquivo .ovpn para a máquina local:
+
+```
+scp -i /caminho/para/chave.pem ubuntu@<IP-SERVIDOR>:/home/ubuntu/client1.ovpn .
+```
+
+instale o aplicativo da openvpn
+
+ja instalado, coloque a chave que você conseguiu no aplicativo da openvpn e rode
+
+acesse o endereço da vpn no seu navegador
+
+
+
+
+
+
+
