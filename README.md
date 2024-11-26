@@ -69,6 +69,13 @@ O objetivo da atividade é desenvolver uma infraestrutura de rede para uma empre
 ---
 
 
+## INTEGRANTES
+
+- [Gustavo Henrique Pereira de Abreu](https://github.com/gustavohpereira)
+- [Pedro Henrique Pucci](https://github.com/pedro11pucci)
+- [Luis Cardoso](https://github.com/LuisSCardoso)
+
+
 ![image](https://github.com/user-attachments/assets/0115937f-9e65-4ad2-b1eb-cd89a6e64876)
 
 
@@ -195,6 +202,89 @@ agora renicie o apache
 ```
 
 e entre nas configurações do apache e coloque o html do repositório nele (/var/www/html)
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagens</title>
+    <script>
+const apiUrl = 'http://23.20.134.85:8080/api/mensagem';
+
+        async function fetchMessages() {
+            try {
+    const response = await fetch(apiUrl, {
+    method: 'GET',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    credentials: 'same-origin'
+    });
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar mensagens');
+                }
+                const messages = await response.json();
+                displayMessages(messages);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+       
+        function displayMessages(messages) {
+            const messageList = document.getElementById('messageList');
+            messageList.innerHTML = '';
+
+            messages.forEach(message => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${message.data}: ${message.mensagem}`;
+                messageList.appendChild(listItem);
+            });
+        }
+
+        
+        async function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const mensagem = messageInput.value;
+            const data = new Date().toISOString().split('T')[0];
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ mensagem, data })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar mensagem');
+                }
+
+                messageInput.value = ''; 
+                fetchMessages();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        
+        window.onload = fetchMessages;
+    </script>
+</head>
+<body>
+    <main>
+        <div>
+            <h1>Aplicação 1</h1>
+            <ul id="messageList"></ul> 
+            <input type="text" id="messageInput" placeholder="Digite sua mensagem" />
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </main>
+</body>
+</html>
+```
 
 entre no html e atualize o endpoint do back-end
 
