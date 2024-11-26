@@ -83,48 +83,22 @@ O objetivo da atividade é desenvolver uma infraestrutura de rede para uma empre
 
 ### **Configuração dos Servidores Frontend com Apache**
 
-#### 1. Criação e Configuração das Instâncias EC2 e do Banco de Dados RDS
+#### 1. Criação e Configuração das Instâncias EC2 para Nginx e Load Balancer
 
 - **Criação da primeira instância EC2** para servir como frontend.
 - Configurar o grupo de segurança padrão com acesso geral `0.0.0.0/0` por questões práticas.
-- **Criação da instância RDS** para servir como banco de dados PostgreSQL. Lembrar de configurar o grupo de segurança igual ao da instância EC2.
-
-#### 2. Instalação do Apache2 para Servir o Conteúdo do Frontend
-```bash
-sudo apt-get install apache2
-
-### Passo 1: Criar uma Instância EC2 para o Load Balancer
-
-#### **1. Acesso ao AWS Management Console**
-- Entre no **AWS Management Console** e navegue para o serviço **EC2**.
-
-#### **2. Criar uma Nova Instância EC2**
-- Clique em **Launch Instance** e configure conforme as etapas abaixo:
-  - **AMI**: Escolha uma AMI baseada no Ubuntu Server (ex.: `Ubuntu 20.04`).
-  - **Tipo de Instância**: Selecione um tipo como `t2.micro` (grátis para o nível gratuito da AWS).
-  - **Armazenamento**: Use o padrão (8 GB ou mais, dependendo das necessidades).
-  - **Segurança**:
-    - Crie ou configure um **Grupo de Segurança** com as seguintes regras:
-      - **HTTP (porta 80)**: Permitir acesso de qualquer lugar (`0.0.0.0/0`).
-      - **HTTPS (porta 443)**: Permitir acesso de qualquer lugar (`0.0.0.0/0`).
-      - **SSH (porta 22)**: Restrinja ao seu IP público atual.
-
-#### **3. Acessar a Instância**
-- Após o lançamento, conecte-se à instância via SSH:
-```bash
-ssh -i "seu-arquivo.pem" ubuntu@<seu-endereço-ip>
 
 
+Após acessar a maquina ec2:
+
+- 2. Instalar o Nginx
+Instale o Nginx na instância:
+```
+sudo apt install nginx -y
 ```
 
-2. Instalar o Nginx
-Instale o Nginx na instância:
-bash
-Copiar código
-sudo apt install nginx -y
 
-
-3. Configurar o Nginx como Load Balancer
+- 3. Configurar o Nginx como Load Balancer
 Edite o arquivo de configuração do Nginx:
 ```
 sudo nano /etc/nginx/sites-available/default
@@ -152,16 +126,16 @@ Substitua o conteúdo pelo seguinte:
 ```
 4. Testar e Reiniciar o Nginx
 Verifique a configuração:
-bash
-Copiar código
+```
 sudo nginx -t
+```
 
 
 
 Reinicie o Nginx para aplicar as mudanças:
-bash
-Copiar código
+```
 sudo systemctl restart nginx
+```
 
 
 
