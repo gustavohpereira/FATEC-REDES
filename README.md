@@ -166,7 +166,7 @@ crie uma ec2 para servir como servidor back-end para nossa aplicação
 ### clonar back-end
 
 ```
-   git clone 
+   git clone https://github.com/gustavohpereira/FATEC-REDES.git
 ```
 
 ### Rode o docker 
