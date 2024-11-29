@@ -66,14 +66,6 @@ O objetivo da atividade é desenvolver uma infraestrutura de rede para uma empre
 - Todos os arquivos de configuração e scripts utilizados devem ser entregues junto com o relatório.
 - O projeto deverá ser entregue via **GitHub**, com documentação clara de como replicar o ambiente.
 
----
-
-
-## INTEGRANTES
-
-- [Gustavo Henrique Pereira de Abreu](https://github.com/gustavohpereira)
-- [Pedro Henrique Pucci](https://github.com/pedro11pucci)
-- [Luis Cardoso](https://github.com/LuisSCardoso)
 
 
 ![image](https://github.com/user-attachments/assets/0115937f-9e65-4ad2-b1eb-cd89a6e64876)
