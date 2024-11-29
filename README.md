@@ -92,14 +92,12 @@ O objetivo da atividade é desenvolver uma infraestrutura de rede para uma empre
 Após acessar a maquina ec2:
 
 - 2. Instalar o Nginx
-Instale o Nginx na instância:
 ```
 sudo apt install nginx -y
 ```
 
 
-- 3. Configurar o Nginx como Load Balancer
-Edite o arquivo de configuração do Nginx:
+- 3. Configurar o Nginx como Load Balancer,Edite o arquivo de configuração do Nginx:
 ```
 sudo  nano /etc/nginx/conf.d/redes.conf
 ```
@@ -145,13 +143,21 @@ sudo systemctl restart nginx
 ## BACK-END
 
 ### criar uma ec2
-crie uma ec2 para servir como servidor back-end para nossa aplicação
+Crie uma instância EC2 para o backend.
+Configure o grupo de segurança permitindo acesso às portas usadas pelo Docker (ex.: 8080).
 
 ### clonar back-end
 
 ```
    git clone https://github.com/gustavohpereira/FATEC-REDES.git
 ```
+
+### Entre no diretorio projeto
+
+```
+ cd .\projeto\  
+```
+
 
 ### Rode o docker 
 
@@ -161,11 +167,12 @@ crie uma ec2 para servir como servidor back-end para nossa aplicação
 docker compose up
 ```
 
+#### assim você pode acessar o back-end pela porta 8080 de sua maquina
 
 
 ## SERVERS WEB
 
-### para servir nossas aplicações front-end, criamos uma ec2 para cada front-end ( para uso do load balancer )
+### Crie 3 instâncias EC2 que servirão como servidores frontend.
 
 
 agora dentro de cada uma, você vai instalar o apache
@@ -179,6 +186,8 @@ agora renicie o apache
 ```
 
 e entre nas configurações do apache e coloque o html do repositório nele (/var/www/html)
+
+para melhor visualização do load balancer, em cada maquina, altere o h1 do html para diferenciar elas
 
 ```
 <!DOCTYPE html>
